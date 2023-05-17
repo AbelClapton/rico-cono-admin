@@ -1,5 +1,5 @@
 import { useRouter } from 'vue-router'
-import { useIdentityPasswordLogin, useAuthState } from '@vueauth/core'
+import { useIdentityPasswordLogin } from '@vueauth/core'
 
 export default () => {
   const router = useRouter()
@@ -13,19 +13,18 @@ export default () => {
     login,
     isReauthenticating,
     resetForm,
-    resetErrors
+    resetErrors,
   } = useIdentityPasswordLogin()
-  const { user } = useAuthState()
 
-  async function onLoginClicked () {
+  async function onLoginClicked() {
     resetErrors()
     await login()
-    if (!hasErrors.value) {
-      router.push({ name: 'dashboard' })
-    }
+    if (hasErrors.value) return
+
+    router.push({ name: 'dashboard' })
   }
 
-  function onForgotPasswordClicked () {
+  function onForgotPasswordClicked() {
     router.push({ name: 'auth.requestPasswordReset' })
   }
 
@@ -34,7 +33,7 @@ export default () => {
    * This function prefills the email if possible,
    * thus saving the user from typing it in
    */
-  function attemptSetEmailOnForm () {
+  function attemptSetEmailOnForm() {
     if (typeof form.value.email === 'string' && user.value?.email) {
       form.value.email = user.value.email
     }
@@ -52,6 +51,6 @@ export default () => {
     login,
     resetForm,
     isReauthenticating,
-    attemptSetEmailOnForm
+    attemptSetEmailOnForm,
   }
 }

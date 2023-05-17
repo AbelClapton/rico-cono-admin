@@ -8,7 +8,7 @@ const showUpdatePasswordDialog = ref(false)
 </script>
 
 <template>
-  <q-menu auto-close>
+  <q-menu auto-close transition-show="jump-up" transition-hide="jump-down">
     <q-list>
       <AuthLogoutItem />
       <AuthChangePasswordItem @click="showUpdatePasswordDialog = true" />
